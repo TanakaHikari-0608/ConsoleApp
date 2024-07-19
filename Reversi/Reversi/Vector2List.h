@@ -4,7 +4,7 @@
 //======================================
 // ★ここにインクルードガード(開始)を記入してください
 #ifndef __VECTOR2_H
-#endif __VECTOR2_H
+#define __VECTOR2_H
 
 #include "Vector2.h"
 typedef struct {
