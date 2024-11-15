@@ -2,8 +2,9 @@
 //======================================
 //	ターン制バトル
 //======================================
-// ★ここにインクルードガード(開始)を記入してください。
- 
+#ifndef __TURNBATTLE_H
+#define __TURNBATTLE_H
+
 #include "Character.h"
 #include "Command.h"
 
@@ -28,4 +29,4 @@ bool ExecEnemyTurn(TurnBattle* btl,Command cmd);
 // 次のターン
 void NextTurnBattle(TurnBattle* btl);
 
-// ★ここにインクルードガード(終了)を記入してください。
+#endif // __TURNBATTLE_H

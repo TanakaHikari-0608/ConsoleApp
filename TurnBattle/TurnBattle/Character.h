@@ -2,7 +2,8 @@
 //======================================
 //	キャラクター
 //======================================
-// ★ここにインクルードガード(開始)を記入してください。
+#ifndef __CHARACTER_H
+#define __CHARACTER_H
 
 struct Character {
 	int hp;     // HP
@@ -43,4 +44,4 @@ void SetEscapeCharacter(Character* ch);
 bool IsEscapeCharacter(Character* ch);
 // AA消す
 void SetEraseAa(Character* ch);
-// ★ここにインクルードガード(終了)を記入してください。
+#endif // __CHARACTER_H
