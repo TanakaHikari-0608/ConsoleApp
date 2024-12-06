@@ -1,9 +1,11 @@
-#pragma once
 //======================================
 //      落ち物バズル 落ちブロック
 //======================================
+// ★ここにインクルードガード(開始)を記入してください
+//
 #ifndef __FALLBLOCK_H
 #define __FALLBLOCK_H
+
 
 #include "BlockShape.h"
 
@@ -21,4 +23,5 @@ void SetRandomFallBlock(FallBlock* fallBlock, int x, int y);
 // 落ちブロックをプリント
 void PrintFallBlock(FallBlock* fallBlock);
 
-#endif __FALLBLOCK_H
+// ★ここにインクルードガード(終了)を記入してください
+#endif // !FALLBLOCK_H

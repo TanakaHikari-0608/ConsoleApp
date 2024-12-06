@@ -1,4 +1,3 @@
-#pragma once
 //======================================
 //	ユーティリティ
 //======================================
@@ -16,13 +15,13 @@ extern const char* EscWHITE;
 extern const char* EscDEFAULT;
 
 enum Key {
-	ARROW_UP    = 0xe048,
-	ARROW_LEFT  = 0xe04b,
-	ARROW_DOWN  = 0xe050,
+	ARROW_UP = 0xe048,
+	ARROW_LEFT = 0xe04b,
+	ARROW_DOWN = 0xe050,
 	ARROW_RIGHT = 0xe04d,
-	DECIDE      = 0x0d,
-	ESC         = 0x1b,
-	SPACE       = 0x20,
+	DECIDE = 0x0d,
+	ESC = 0x1b,
+	SPACE = 0x20,
 };
 // 乱数初期化
 void InitRand();

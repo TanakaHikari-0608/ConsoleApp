@@ -1,9 +1,11 @@
-#pragma once
 //======================================
 //      落ち物バズル ステージ
 //======================================
+// ★ここにインクルードガード(開始)を記入してください
+//
 #ifndef __STAGE_H
 #define __STAGE_H
+
 #include "BlockShape.h"
 #include "FallBlock.h"
 
@@ -30,7 +32,7 @@ void SetField(Stage* stage, int x, int y, Block blk);
 // 指定位置のフィールド取得
 Block GetField(Stage* stage, int x, int y);
 // 落ちブロックがフィールドに衝突?
-bool BlockIntersectField(Stage* stage, FallBlock *fallBlock);
+bool BlockIntersectField(Stage* stage, FallBlock* fallBlock);
 // 揃った行を消して、上から詰める
 void EraseLine(Stage* stage);
 // 画面描画
@@ -46,7 +48,7 @@ FallBlock GetFallBlock(Stage* stage);
 // 落ちブロックのセット
 void SetFallBlock(Stage* stage, FallBlock* fallBlock);
 // ゲームオーバか?
-bool IsGameOver(Stage*stage);
+bool IsGameOver(Stage* stage);
 
 // ★ここにインクルードガード(終了)を記入してください
 #endif // __STAGE_H

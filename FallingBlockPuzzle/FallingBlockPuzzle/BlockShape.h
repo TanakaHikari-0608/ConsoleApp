@@ -1,9 +1,12 @@
-#pragma once
 //======================================
 //      落ち物バズル ブロック形状
 //======================================
-#ifndef __BLOCK_SHAPE_H
-#define __BLOCK_SHAPE_H
+// ★ここにインクルードガード(開始)を記入してください
+//
+#ifndef __BLOCKSHAPE_H
+#define __BLOCKSHAPE_H
+
+
 
 const int SHAPE_WID_MAX = 4;
 const int SHAPE_HEI_MAX = 4;
@@ -27,4 +30,4 @@ bool GetShapePattern(BlockShape* shape, int x, int y);
 void PrintShape(BlockShape* shape);
 
 // ★ここにインクルードガード(終了)を記入してください
-#endif  // __BLOCK_SHAPE_H
+#endif // !__BLOCKSHAPE_H

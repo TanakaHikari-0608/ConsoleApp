@@ -8,14 +8,14 @@
 #include <stdio.h> // printf()
 #include <conio.h> // _getch()
 
-const char* EscBLACK   = "\x1b[30m";
-const char* EscRED     = "\x1b[31m";
-const char* EscGREEN   = "\x1b[32m";
-const char* EscYELLOW  = "\x1b[33m";
-const char* EscBLUE    = "\x1b[34m";
+const char* EscBLACK = "\x1b[30m";
+const char* EscRED = "\x1b[31m";
+const char* EscGREEN = "\x1b[32m";
+const char* EscYELLOW = "\x1b[33m";
+const char* EscBLUE = "\x1b[34m";
 const char* EscMAZENTA = "\x1b[35m";
-const char* EscCYAN    = "\x1b[36m";
-const char* EscWHITE   = "\x1b[37m";
+const char* EscCYAN = "\x1b[36m";
+const char* EscWHITE = "\x1b[37m";
 const char* EscDEFAULT = "\x1b[39m";
 
 // óêêîèâä˙âª
@@ -38,7 +38,7 @@ void WaitKey()
 // ÉLÅ[éÊìæ
 Key GetKey()
 {
-	int key=_getch();
+	int key = _getch();
 	if (key == 0xe0) {
 		int key2 = _getch();
 		key = 0xe000 + key2;

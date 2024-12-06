@@ -1,4 +1,3 @@
-#pragma once
 //======================================
 //      インターバルタイマー
 //======================================
@@ -12,7 +11,7 @@ typedef struct {
 } IntervalTimer;
 
 // タイマースタート
-void StartTimer(IntervalTimer* timer,int fps);
+void StartTimer(IntervalTimer* timer, int fps);
 // インターバル経過した?
 bool IsInterval(IntervalTimer* timer);
 

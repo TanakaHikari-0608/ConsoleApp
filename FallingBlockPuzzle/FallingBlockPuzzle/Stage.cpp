@@ -26,15 +26,17 @@ const Block defaultField[FIELD_HEIGHT][FIELD_WIDTH] = {
 	{W,_,_,_,_,_,_,_,_,_,_,W}, // 9
 	{W,_,_,_,_,_,_,_,_,_,_,W}, // 10
 	{W,_,_,_,_,_,_,_,_,_,_,W}, // 11
-	{W,W,_,_,_,_,_,_,_,_,W,W}, // 12
-	{W,W,_,_,_,_,_,_,_,_,W,W}, // 13
-	{W,W,_,_,_,_,_,_,_,_,W,W}, // 14
-	{W,W,W,_,_,_,_,_,_,W,W,W}, // 15
-	{W,W,W,W,_,_,_,_,W,W,W,W}, // 16
+	{W,_,_,_,_,_,_,_,_,_,_,W}, // 12
+	{W,_,_,_,_,_,_,_,_,_,_,W}, // 13
+	{W,_,_,_,_,_,_,_,_,_,_,W}, // 14
+	{W,_,_,_,_,_,_,_,_,_,_,W}, // 15
+	{W,_,_,_,_,_,_,_,_,_,_,W}, // 16
 	{W,W,W,W,W,W,W,W,W,W,W,W}, // 17
 #undef _
 #undef W
 };
+
+int point = 0;
 
 const char* blockAA[] = {
 	"　", //BLK_NONE
@@ -53,28 +55,52 @@ void InitializeStage(Stage* stage)
 // 指定座標のフィールドセット
 void SetField(Stage* stage, int x, int y, Block block)
 {
-	if (isInField(x, y)) {
+	//
+	// ★ここをコーディングしてください
+	// isInField()を確認して fieldの(x,y)に blockを格納します。
+	// isInField()外なら、なにもしません
+	//
+	if (isInField(x, y))
+	{
 		stage->field[y][x] = block;
 	}
 }
 // 指定座標のフィールド取得
 Block GetField(Stage* stage, int x, int y)
 {
-	if (isInField(x, y)) {
+	//
+	// ★ここをコーディングしてください
+	// isInField()を確認して、fieldの(x,y)の内容を返します
+	// isInField()外なら、壁(BLK_WALL)を返します
+	//
+	if (isInField(x, y))
+	{
 		return stage->field[y][x];
 	}
 	return BLK_WALL;
 }
 // 落下ブロックがフィールド衝突?
-bool BlockIntersectField(Stage* stage,FallBlock *fallBlock)
+bool BlockIntersectField(Stage* stage, FallBlock* fallBlock)
 {
-	BlockShape *shape = &fallBlock->shape;
-	for (int y = 0; y < shape->size; y++) {
-		int fieldy = fallBlock->y + y;
-		for (int x = 0; x < shape->size; x++) {
-			if (GetShapePattern(shape, x, y)) {
-				int fieldx = fallBlock->x + x;
-				if (GetField(stage, fieldx, fieldy) != BLK_NONE) {
+	// 
+	// ★ここをコーディングしてください
+	// fallBlockのshape を走査します(x,y)
+	// fallBlockのshapeの1のところに対応する field を調べる
+	// fieldのx座標はfallBlockのx + 走査x座標
+	// fieldのy座標はfallBlockのy + 走査y座標
+	// 調べたfieldが、空白(BLK_NONE)でなければ、衝突している
+	// 
+	BlockShape* shape = &fallBlock->shape;
+	for (int y = 0; y < shape->size; y++)
+	{
+		int fieldY = fallBlock->y + y;
+		for (int x = 0; x < shape->size; x++)
+		{
+			if (GetShapePattern(shape, x, y))
+			{
+				int fieldX = fallBlock->x + x;
+				if (GetField(stage, fieldX, fieldY) != BLK_NONE)
+				{
 					return true;
 				}
 			}
@@ -86,19 +112,39 @@ bool BlockIntersectField(Stage* stage,FallBlock *fallBlock)
 // 揃った行を消して、上から詰める
 void EraseLine(Stage* stage)
 {
+
+	point--;
 	for (int y = 0; y < FIELD_HEIGHT; y++) {
 		bool completed = true;
 		// 行が揃ったか?
-		for (int x = 0; x < FIELD_WIDTH; x++) {
-			if (GetField(stage, x, y) == BLK_NONE) {
+		//
+		// ★ここをコーディングしてください
+		// y 行を走査します(x:0～FIELD_WIDTH-1)
+		// fieldの(x,y)を取得して、空白(BLK_NONE)であれば
+		// 行はそろっていないので、completedを偽にしてxループを抜けます
+		//
+		for (int x = 0; x < FIELD_HEIGHT; x++)
+		{
+			if (GetField(stage, x, y) == BLK_NONE)
+			{
 				completed = false;
 				break;
 			}
 		}
 		if (completed) {
+
+			point++;
 			// 行を消す
-			for (int x = 0; x < FIELD_WIDTH; x++) {
-				if (GetField(stage, x, y) == BLK_FIX) {
+			//
+			// ★ここをコーディングしてください
+			// y行を走査します(x:0～FIELD_WIDTH-1)
+			// fieldの(x,y)を取得して 固定ブロック(BLK_FIX)なら
+			// 空白(BLK_NONE)に差し替えます
+			//
+			for (int x = 0; x < FIELD_WIDTH; x++)
+			{
+				if (GetField(stage, x, y) == BLK_FIX)
+				{
 					SetField(stage, x, y, BLK_NONE);
 				}
 			}
@@ -115,7 +161,7 @@ void EraseLine(Stage* stage)
 					else {
 						// 最上段でなければ、1つ上を
 						Block blk = GetField(stage, x, yy - 1);
-						if( blk!= BLK_WALL){
+						if (blk != BLK_WALL) {
 							SetField(stage, x, yy, blk);
 						}
 						else {
@@ -137,28 +183,54 @@ void DrawScreen(Stage* stage)
 	writeFallBlockToField(screen, &stage->fallBlock, BLK_FALL);
 	// 描画
 	ClearScreen();
-	for (int y = 0; y < FIELD_HEIGHT; y++) {
-		for (int x = 0; x < FIELD_WIDTH; x++) {
+	// 
+	// ★ここをコーディングしてください
+	// screenのfieldを走査します
+	// screenのfieldの(x,y)を取得して、その内容の blockAA[] を表示します
+	// ＋　　　　　　　　　　＋
+	// ＋　　　　　　　　　　＋
+	// ＋　　　　　　　　　　＋
+	// ＋　　　　　　　　　　＋
+	// ＋　　　　　　　　　　＋
+	// ＋　　　　　　　　　　＋
+	// ＋　　　　　　　　　　＋
+	// ＋　　　　　　　　　　＋ 
+	// ＋　　　　　　　　　　＋
+	// ＋　　　　　　　　　　＋
+	// ＋＋　　　　　　　　＋＋
+	// ＋＋　　　　　　　　＋＋
+	// ＋＋　　◇　　　　　＋＋
+	// ＋＋　　◇　　　　　＋＋
+	// ＋＋＋　◇　　　　＋＋＋
+	// ＋＋＋　　　　　　＋＋＋
+	// ＋＋＋＋　◆◆◆＋＋＋＋
+	// ＋＋＋＋＋＋＋＋＋＋＋＋
+	// 
+	for (int y = 0; y < FIELD_HEIGHT; y++)
+	{
+		for (int x = 0; x < FIELD_WIDTH; x++)
+		{
 			Block blk = GetField(screen, x, y);
 			printf("%s", blockAA[blk]);
 		}
-		putchar('\n');
+		printf("\n");
 	}
 	//PrintFallBlock(&stage->fallBlock);
+	printf("%dpoint\n", point);
 }
 // ブロックを1つ落下させる
 void MoveDownFallBlock(Stage* stage)
 {
-	FallBlock fallBlock =GetFallBlock( stage);
+	FallBlock fallBlock = GetFallBlock(stage);
 	MoveFallBlock(&fallBlock, 0, 1);
 	// y+1が衝突するか?
-	if (BlockIntersectField(stage,&fallBlock)) {
+	if (BlockIntersectField(stage, &fallBlock)) {
 		// 落下ブロックを現在位置にfix
 		writeFallBlockToField(stage, &stage->fallBlock, BLK_FIX);
 		EraseLine(stage);
 		// 新たな落下ブロックセットアップ
 		SetupFallBlock(stage);
-		if (BlockIntersectField(stage,&stage->fallBlock)) {
+		if (BlockIntersectField(stage, &stage->fallBlock)) {
 			stage->isGameOver = true;
 		}
 	}
@@ -168,12 +240,12 @@ void MoveDownFallBlock(Stage* stage)
 	DrawScreen(stage);
 }
 // 落ちブロックのセットアップ
-void SetupFallBlock(Stage* stage) 
+void SetupFallBlock(Stage* stage)
 {
 	FallBlock* fallBlock = &stage->fallBlock;
 	// 座標は、上辺中央
 	int x = FIELD_WIDTH / 2 - fallBlock->shape.size / 2;
-	SetRandomFallBlock(fallBlock,x,0);
+	SetRandomFallBlock(fallBlock, x, 0);
 }
 // 落ちブロックを取得
 FallBlock GetFallBlock(Stage* stage)
@@ -193,21 +265,33 @@ bool IsGameOver(Stage* stage)
 // 落下ブロックをフィールドへ記入する
 static void writeFallBlockToField(Stage* stage, FallBlock* fallBlock, Block writeData)
 {
+	//
+	// ★ここをコーディングしてください
+	// fallBlockのshapeを走査します(x,y)
+	// もし shapeの(x,y)が真なら、
+	// 対応する field を調べ、空白なら writeDataを書き込みます
+	//  fieldのx座標 = fallBlockのx座標 + 走査x座標
+	//  fieldのy座標 = fallBlockのy座標 + 走査y座標
+	//
 	BlockShape* shape = &fallBlock->shape;
-	for (int y = 0; y < shape->size; y++) {
-		int fieldy = fallBlock->y + y;
-		for (int x = 0; x < shape->size; x++) {
-			int fieldx = fallBlock->x + x;
-			if (GetShapePattern(shape, x, y)) {
-				if (GetField(stage, fieldx, fieldy) == BLK_NONE) {
-					SetField(stage, fieldx, fieldy, writeData);
+	for (int y = 0; y < shape->size; y++)
+	{
+		int fieldY = fallBlock->y + y;
+		for (int x = 0; x < shape->size; x++)
+		{
+			int fieldX = fallBlock->x + x;
+			if (GetShapePattern(shape, x, y))
+			{
+				if (GetField(stage, fieldX, fieldY) == BLK_NONE)
+				{
+					SetField(stage, fieldX, fieldY, writeData);
 				}
 			}
 		}
 	}
 }
 // 座標はフィールド内?
-static bool isInField(int x, int y) 
+static bool isInField(int x, int y)
 {
 	return 0 <= x && x < FIELD_WIDTH
 		&& 0 <= y && y < FIELD_HEIGHT;
