@@ -36,6 +36,7 @@ bool IsDeadCharacter(Character* ch)
 void DamageCharacter(Character* ch, int damage)
 {
 	ch->hp -= damage;
+
 	if (ch->hp < 0) {
 		ch->hp = 0;
 	}
@@ -61,40 +62,51 @@ void UseSpellCharacter(Character* ch)
 // プレーヤ表示を行う
 void IndicatePlayer(Character* ch)
 {
+	// ★ここをコーディングしてください。
+	// 仕様を参考に、プレーヤの表示を行います。
 	printf("%s\n", ch->name);
-	printf("ＨＰ:%3d/%d  ＭＰ：%2d/%d\n", ch->hp, ch->maxHp, ch->mp, ch->maxMp);
 
-else if (ch->hp <= ch->maxHp / 3 && ch->hp > ch->maxHp / 5) {
-	printf(EscYELLOW);
-	printf("(ＨＰ: %3d／%d) \n", ch->hp, ch->maxHp);
-	printf(EscDEFAULT);
-	printf("(ＭＰ :%2d／%d)\n", ch->mp, ch->maxMp);
+	if (ch->hp < ch->maxHp / 5)
+	{
+		printf(EscRED);
+		printf("HP：%3d/%d ", ch->hp, ch->maxHp);
+		printf(EscDEFAULT);
 	}
-else if (ch->hp <= ch->maxHp / 5) {
-	printf(EscRED);
-	printf("(ＨＰ: %3d／%d) \n", ch->hp, ch->maxHp);
-	printf(EscDEFAULT);
-	printf("(ＭＰ :%2d／%d)\n", ch->mp, ch->maxMp);
+	else if (ch->hp < ch->maxHp / 3)
+	{
+		printf(EscYELLOW);
+		printf("HP：%3d/%d ", ch->hp, ch->maxHp);
+		printf(EscDEFAULT);
 	}
+	else
+	{
+		printf("HP：%3d/%d ", ch->hp, ch->maxHp);
+	}
+	printf("MP：%2d/%d", ch->mp, ch->maxMp);
 }
-
-
 // エネミー表示を行う
 void IndicateEnemy(Character* ch)
 {
-	if (ch->isEraseAa == false) {
+	// ★ここをコーディングしてください。
+	// 仕様を参考に、エネミーの表示を行います。
+	// エネミーが死亡すると、アスキーアートは消します(表示しません)
+	if (ch->isEraseAa == false)
+	{
 		printf("%s", ch->aa);
 	}
-	printf("(ＨＰ:%3d/%d) \n", ch->hp, ch->maxHp);
+	printf("(HP：%3d/%d)\n", ch->hp, ch->maxHp);
 }
 // 攻撃力から与えるダメージを計算
 int CalcDamage(Character* ch)
 {
+	// ★ここをコーディングしてください。
+	// 敵に与えるダメージは、1～attack の乱数です。
+	// Utility.cpp の GetRand(int max)を使用してください。
 	int dmg = GetRand(ch->attack) + 1;
 	return dmg;
 }
 // 名前を取得
-const char *GetName(Character* ch)
+const char* GetName(Character* ch)
 {
 	return ch->name;
 }
